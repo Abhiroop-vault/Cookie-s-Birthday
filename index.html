@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Cookie 🎂</title>
+  <style>
+    /* Base Styling */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff0f8;
+      color: #4a004e;
+      overflow: hidden;
+    }
+
+    .page {
+      display: none;
+      height: 100vh;
+      width: 100%;
+      padding: 30px 20px;
+      box-sizing: border-box;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle, #fff0f8, #ffe6f0);
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1, h2, p {
+      margin: 20px 0;
+      max-width: 90%;
+      text-shadow: 1px 1px 2px #ffd6ea;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      color: #b80085;
+      animation: glowPulse 2s infinite ease-in-out;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      color: #930072;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 1.4rem;
+      color: #6b005c;
+      line-height: 1.6;
+    }
+
+    .subline {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #7e2c8f;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .big-hbd {
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #ff008c;
+      text-shadow: 2px 2px 10px #ffa3da;
+      animation: glowText 2s infinite alternate;
+    }
+
+    @keyframes glowText {
+      0% { text-shadow: 0 0 5px #ffa3da, 0 0 10px #ff5bbd; }
+      100% { text-shadow: 0 0 15px #ffa3da, 0 0 25px #ff5bbd; }
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    .buttons button {
+      background: linear-gradient(to right, #ff7bc7, #a359e6);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+      animation: float 2s ease-in-out infinite;
+    }
+
+    .buttons button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #e94bb2, #814ad9);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .typewriter {
+      overflow: hidden;
+      border-right: .15em solid #d172f7;
+      white-space: nowrap;
+      margin: 0 auto;
+      letter-spacing: .05em;
+      animation: typing 2.5s steps(40, end), blink-caret .75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #d172f7 }
+    }
+
+    .video-container {
+      width: 90%;
+      max-width: 640px;
+      margin: 25px auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .balloon-burst {
+      position: absolute;
+      bottom: -80px;
+      width: 80px;
+      height: 100px;
+      border-radius: 50%;
+      opacity: 0.95;
+      animation: burstFloat 3.5s ease-in-out forwards;
+      z-index: 5;
+    }
+
+    .balloon-burst.red { background: #ff4d6d; left: 20%; animation-delay: 0s; }
+    .balloon-burst.blue { background: #4dabf7; left: 40%; animation-delay: 0.5s; }
+    .balloon-burst.yellow { background: #ffd43b; left: 60%; animation-delay: 1s; }
+    .balloon-burst.green { background: #69db7c; left: 80%; animation-delay: 1.5s; }
+
+    @keyframes burstFloat {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      50% { transform: translateY(-200px) scale(1.1); }
+      100% { transform: translateY(-400px) scale(1.3); opacity: 0; }
+    }
+
+    .sprinkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffc0f3, #ff85c1);
+      animation: sparkleFly 2s ease-in-out infinite;
+      opacity: 0.8;
+      z-index: 4;
+    }
+
+    @keyframes sparkleFly {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translateY(-150px) scale(0.5); opacity: 0; }
+    }
+
+    #sprinkle-container, #heart-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff5da2;
+      transform: rotate(-45deg);
+      animation: floatHeart 4s ease-in infinite;
+      opacity: 0.9;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff5da2;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: 10px; top: 0; }
+
+    @keyframes floatHeart {
+      0% { transform: rotate(-45deg) translateY(0); opacity: 0.9; }
+      100% { transform: rotate(-45deg) translateY(-600px); opacity: 0; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <!-- Page 1 -->
+  <section class="page active" id="page1">
+    <h1 class="typewriter">Hey Cookie... 👀<br>It’s your birthday today! 🎂</h1>
+    <div class="buttons">
+      <button onclick="startSite()">Yeyyyyyy let's goooo 🎉</button>
+    </div>
+  </section>
+
+  <!-- Page 2 -->
+  <section class="page" id="page2">
+    <p class="typewriter">Do you wanna see something I made for you specially? 🥺</p>
+    <div class="buttons">
+      <button onclick="nextPage('page3')">Yes 🥹</button>
+      <button onclick="nextPage('pageNo1')">No 🙄</button>
+    </div>
+  </section>
+
+  <!-- Page No1 / No2 -->
+  <section class="page" id="pageNo1">
+    <p>😒 Are you fr right now?</p>
+    <p>😭 You really don’t wanna see it??</p>
+    <p>It has my love... and some chaos 😤</p>
+    <div class="buttons">
+      <button onclick="nextPage('pageNo2')">Still No 🙃</button>
+      <button onclick="nextPage('page3')">Okay Fine 😤</button>
+    </div>
+  </section>
+
+  <section class="page" id="pageNo2">
+    <p>😤 You’re seeing this anyway. I made this for you with love 😡💜</p>
+    <div class="buttons">
+      <button onclick="nextPage('page3')">Ugh fine 🙄</button>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="page" id="page3"><h2 class="typewriter">It’s been 16 years of healing hearts ✨</h2><div class="buttons"><button onclick="nextPage('page4')">Tap to continue 💫</button></div></section>
+  <section class="page" id="page4"><h2 class="typewriter">193 months of beautiful life learnings 💖</h2><div class="buttons"><button onclick="nextPage('page5')">Tap to continue 🌈</button></div></section>
+  <section class="page" id="page5"><h2 class="typewriter">5,874 days of laughter, tears, chaos and you being YOU 💜</h2><div class="buttons"><button onclick="nextPage('page6')">Tap to continue ✨</button></div></section>
+
+  <!-- Birthday -->
+  <section class="page" id="page6">
+    <h2 class="big-hbd">🎉🎉 HAPPY BIRTHDAY HARSITHA 🎉🎉</h2>
+    <p class="subline typewriter">With LOVE, Your Best Boy 💕</p>
+    <div class="balloon-burst red"></div>
+    <div class="balloon-burst blue"></div>
+    <div class="balloon-burst yellow"></div>
+    <div class="balloon-burst green"></div>
+    <div id="sprinkle-container"></div>
+    <div id="heart-container"></div>
+    <div class="buttons"><button onclick="nextPage('page7')">Go on... 💌</button></div>
+  </section>
+
+  <!-- Emotional Pause -->
+  <section class="page" id="page7"><p class="typewriter">[Your personal birthday message here later]</p><div class="buttons"><button onclick="nextPage('page8')">Let’s keep going 🥺</button></div></section>
+
+  <!-- Video -->
+  <section class="page" id="page8">
+    <h2>🎥 A lil video memory 🎥</h2>
+    <p>Hit play... and feel everything I couldn’t say out loud.</p>
+    <div class="video-container"><iframe width="100%" height="215" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe></div>
+    <div class="buttons"><button onclick="nextPage('page9')">Final bit 👀</button></div>
+  </section>
+
+  <!-- Custom Message -->
+  <section class="page" id="page9">
+    <h2 class="typewriter">💌 A message from your besttt friendd 💌</h2>
+    <p>I may not always know how to say it out loud...<br>But Cookie, you mean more to me than you'll ever know.<br>You’re not just in my life — you’re part of my story.</p>
+    <p>Thank you for being real, raw, emotional, chaotic, kind — everything.<br>I wouldn’t trade this bond for anything. 💕</p>
+    <div class="buttons"><button onclick="nextPage('page10')">Okay now scroll... 😂</button></div>
+  </section>
+
+  <!-- Final Roast -->
+  <section class="page" id="page10">
+    <p>😂 Koncham height periguu Cookie…</p>
+    <p>16 years tharvathaa... kuda you're still like 6th class Potti Pilla 🤭</p>
+    <p>But you’ll always be *my* chaos 💥💜</p>
+    <div class="buttons"><button onclick="startSite()">🎂 Watch Again 🎂</button></div>
+  </section>
+
+  <!-- JS -->
+  <script>
+    function nextPage(nextId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active'));
+      const nextPageElement = document.getElementById(nextId);
+      nextPageElement.classList.add('active');
+
+      if (nextId === 'page6') {
+        confettiEffect();
+        triggerSprinkles();
+        triggerHearts();
+      }
+    }
+
+    function startSite() {
+      confettiEffect();
+      nextPage('page2');
+    }
+
+    function confettiEffect() {
+      confetti({
+        particleCount: 180,
+        spread: 100,
+        origin: { y: 0.6 },
+      });
+    }
+
+    function triggerSprinkles() {
+      const container = document.getElementById('sprinkle-container');
+      container.innerHTML = '';
+      for (let i = 0; i < 30; i++) {
+        const sprinkle = document.createElement('div');
+        sprinkle.classList.add('sprinkle');
+        sprinkle.style.left = Math.random() * 100 + '%';
+        sprinkle.style.top = Math.random() * 100 + '%';
+        sprinkle.style.animationDuration = `${1 + Math.random()}s`;
+        container.appendChild(sprinkle);
+      }
+    }
+
+    function triggerHearts() {
+      const container = document.getElementById('heart-container');
+      container.innerHTML = '';
+      for (let i = 0; i < 25; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.bottom = '-30px';
+        heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+        container.appendChild(heart);
+      }
+    }
+  </script>
+</body>
+</html>
